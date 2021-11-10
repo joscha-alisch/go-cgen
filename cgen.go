@@ -13,7 +13,7 @@ import (
 
 type Config struct {
 	Headers []string
-	OutDir string
+	OutDir  string
 }
 
 type CGen interface {
@@ -29,7 +29,7 @@ type cGen struct {
 }
 
 func (c *cGen) Run() error {
-	p := parser.New()
+	p := parser.New(parser.Config{})
 	e := extractor.New()
 	r := ruleset.New()
 	o := organiser.New()
@@ -37,7 +37,7 @@ func (c *cGen) Run() error {
 	g := generator.New()
 	w := fswriter.New()
 
-	ast, err := p.Parse()
+	ast, err := p.Parse(c.config.Headers...)
 	if err != nil {
 		return err
 	}
@@ -69,6 +69,3 @@ func (c *cGen) Run() error {
 
 	return nil
 }
-
-
-
