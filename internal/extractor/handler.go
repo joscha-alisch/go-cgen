@@ -6,7 +6,7 @@ import (
 )
 
 type handler struct {
-	ast.BaseHandler
+	ast.Handler
 
 	Definition Definition
 }
