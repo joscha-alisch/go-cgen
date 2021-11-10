@@ -109,6 +109,18 @@ func TestParser(t *testing.T) {
 			},
 			expectedErr: nil,
 		},
+		{
+			desc: "overrides cc config",
+			config: Config{
+				OverrideConfig: &cc.Config{DebugIncludePaths: true},
+			},
+			hostConfigReturns: hostConfigReturns{},
+			expectedHostArgs:  hostConfigArgs{},
+			expectedArgs: parseArgs{
+				Config: &cc.Config{DebugIncludePaths: true},
+			},
+			expectedErr: nil,
+		},
 	}
 
 	for _, test := range tests {
