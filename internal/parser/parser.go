@@ -5,9 +5,7 @@ import (
 	"strings"
 )
 
-/**
-A Parser parses C-headers and returns the corresponding abstract syntax tree.
-*/
+// Parser parses C-headers and returns the corresponding abstract syntax tree.
 type Parser interface {
 	Parse(headers ...string) (*cc.AST, error)
 }
