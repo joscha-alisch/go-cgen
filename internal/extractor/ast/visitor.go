@@ -16,6 +16,7 @@ type astVisitor struct {
 	handler Handler
 }
 
+//gocyclo:ignore
 func (a *astVisitor) Visit(root cc.Node) {
 	cc.Inspect(root, func(n cc.Node, start bool) bool {
 		switch n.(type) {
