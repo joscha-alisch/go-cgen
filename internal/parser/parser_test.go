@@ -70,6 +70,45 @@ func TestParser(t *testing.T) {
 			},
 			expectedErr: nil,
 		},
+		{
+			desc: "uses config",
+			config: Config{
+				IncludePaths: s("some/user/include", "some/other/user/include"),
+				Defines:      s("define something", "define something else"),
+			},
+			hostConfigReturns: hostConfigReturns{
+				Predefined:      "predefined",
+				IncludePaths:    s("some/host/include", "some/other/host/include"),
+				SysIncludePaths: s("some/sys/include", "some/other/sys/include"),
+			},
+			expectedHostArgs: hostConfigArgs{},
+			expectedArgs: parseArgs{
+				Config:       &cc.Config{},
+				IncludePaths: s("some/host/include", "some/other/host/include", "some/user/include", "some/other/user/include"),
+				SysIncludes:  s("some/sys/include", "some/other/sys/include"),
+				Sources: []cc.Source{
+					{Name: predefinedSourceName, Value: "predefined"},
+					{Name: definesSourceName, Value: "define something\ndefine something else"},
+				},
+			},
+			expectedErr: nil,
+		},
+		{
+			desc: "skips host config",
+			config: Config{
+				SkipHostConfig: true,
+			},
+			hostConfigReturns: hostConfigReturns{
+				Predefined:      "predefined",
+				IncludePaths:    s("some/host/include", "some/other/host/include"),
+				SysIncludePaths: s("some/sys/include", "some/other/sys/include"),
+			},
+			expectedHostArgs: hostConfigArgs{},
+			expectedArgs: parseArgs{
+				Config: &cc.Config{},
+			},
+			expectedErr: nil,
+		},
 	}
 
 	for _, test := range tests {
@@ -103,12 +142,21 @@ func TestParser(t *testing.T) {
 				tt.Errorf("hostConfig was not called with correct arguments:\n%s\n", cmp.Diff(test.expectedHostArgs, *hArgs))
 			}
 
-			spew.Config.DisablePointerAddresses = true
-			pArgsDump := spew.Sdump(*pArgs)
-			expectedArgsDump := spew.Sdump(test.expectedArgs)
+			config := pArgs.Config
+			expectedConfig := test.expectedArgs.Config
+			pArgs.Config = nil
+			test.expectedArgs.Config = nil
 
-			if !cmp.Equal(pArgsDump, expectedArgsDump) {
-				tt.Errorf("parse was not called with correct arguments:\n%s\n", cmp.Diff(expectedArgsDump, pArgsDump))
+			if !cmp.Equal(*pArgs, test.expectedArgs) {
+				tt.Errorf("parse was not called with correct arguments:\n%s\n", cmp.Diff(test.expectedArgs, *pArgs))
+			}
+
+			spew.Config.DisablePointerAddresses = true
+			spew.Config.DisableMethods = true
+			configDump := spew.Sdump(*config)
+			expectedConfigDump := spew.Sdump(*expectedConfig)
+			if !cmp.Equal(configDump, expectedConfigDump) {
+				tt.Errorf("parse was not called with correct config:\n%s\n", cmp.Diff(expectedConfigDump, configDump))
 			}
 		})
 	}

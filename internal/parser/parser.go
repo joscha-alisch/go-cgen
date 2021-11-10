@@ -25,6 +25,11 @@ type parser struct {
 	config Config
 }
 
+const (
+	predefinedSourceName = "predefined"
+	definesSourceName    = "defines"
+)
+
 var parse = cc.Parse
 var hostConfig = cc.HostConfig
 
@@ -44,22 +49,22 @@ func (p *parser) Parse(headers ...string) (*cc.AST, error) {
 		}
 	}
 
-	includes = append(includes, p.config.IncludeDirs...)
+	includes = append(includes, p.config.IncludePaths...)
 	sysIncludes = append(sysIncludes)
 
 	var sources []cc.Source
 
 	if predefines != "" {
-		sources = append(sources, cc.Source{Name: "Predefines", Value: predefines})
+		sources = append(sources, cc.Source{Name: predefinedSourceName, Value: predefines})
 	}
 
 	if p.config.Defines != nil {
-		sources = append(sources, cc.Source{Name: "Defines", Value: strings.Join(p.config.Defines, "\n")})
+		sources = append(sources, cc.Source{Name: definesSourceName, Value: strings.Join(p.config.Defines, "\n")})
 	}
 
 	for i := range headers {
 		sources = append(sources, cc.Source{Name: headers[i]})
 	}
 
-	return parse(cfg, p.config.IncludeDirs, sysIncludes, sources)
+	return parse(cfg, includes, sysIncludes, sources)
 }
