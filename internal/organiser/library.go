@@ -1,5 +1,3 @@
 package organiser
 
-type Library struct {
-
-}
+type Library struct{}

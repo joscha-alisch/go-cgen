@@ -1,13 +1,9 @@
 package generator
 
-type Generator interface {
-
-}
+type Generator interface{}
 
 func New() Generator {
 	return &generator{}
 }
 
-type generator struct {
-
-}
+type generator struct{}

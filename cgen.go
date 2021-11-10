@@ -1,6 +1,8 @@
 package cgen
 
 import (
+	"os"
+
 	"github.com/joscha-alisch/go-cgen/internal/extractor"
 	"github.com/joscha-alisch/go-cgen/internal/fswriter"
 	"github.com/joscha-alisch/go-cgen/internal/generator"
@@ -8,7 +10,6 @@ import (
 	"github.com/joscha-alisch/go-cgen/internal/parser"
 	"github.com/joscha-alisch/go-cgen/internal/ruleset"
 	"github.com/joscha-alisch/go-cgen/internal/translator"
-	"os"
 )
 
 type Config struct {

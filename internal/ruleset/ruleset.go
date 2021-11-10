@@ -12,8 +12,7 @@ func New() RuleSet {
 	return &ruleSet{}
 }
 
-type ruleSet struct {
-}
+type ruleSet struct{}
 
 func (r *ruleSet) Apply(def extractor.Definition) (extractor.Definition, error) {
 	return def, nil

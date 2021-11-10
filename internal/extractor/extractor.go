@@ -20,8 +20,7 @@ func New() Extractor {
 	return &extractor{}
 }
 
-type extractor struct {
-}
+type extractor struct{}
 
 func (e *extractor) Extract(t *cc.AST) (Definition, error) {
 	h := handler{}

@@ -2,11 +2,12 @@ package extractor
 
 import (
 	"fmt"
-	"github.com/google/go-cmp/cmp"
-	"modernc.org/cc/v3"
 	"path/filepath"
 	"runtime"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
+	"modernc.org/cc/v3"
 )
 
 func TestExtractor(t *testing.T) {
@@ -49,7 +50,6 @@ func TestExtractor(t *testing.T) {
 			}
 		})
 	}
-
 }
 
 func parseHeader(header string) *cc.AST {

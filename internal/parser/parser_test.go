@@ -2,10 +2,11 @@ package parser
 
 import (
 	"errors"
+	"testing"
+
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/go-cmp/cmp"
 	"modernc.org/cc/v3"
-	"testing"
 )
 
 type parseArgs struct {
@@ -172,7 +173,6 @@ func TestParser(t *testing.T) {
 			}
 		})
 	}
-
 }
 
 func checkErr(err, expected error, t *testing.T) bool {

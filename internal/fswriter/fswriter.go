@@ -4,25 +4,18 @@ import (
 	"io/fs"
 )
 
-type Input interface {
-
-}
+type Input interface{}
 
 type FSWriter interface {
 	Write(input Input, fs fs.FS) error
-
 }
 
 func New() FSWriter {
 	return &fsWriter{}
 }
 
-type fsWriter struct {
+type fsWriter struct{}
 
-}
-
-func (f *fsWriter) Write(input Input, fs fs.FS) error {
+func (f *fsWriter) Write(Input, fs.FS) error {
 	return nil
 }
-
-

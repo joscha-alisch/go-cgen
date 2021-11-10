@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"modernc.org/cc/v3"
 	"strings"
+
+	"modernc.org/cc/v3"
 )
 
 // Parser parses C-headers and returns the corresponding abstract syntax tree.
@@ -28,8 +29,10 @@ const (
 	definesSourceName    = "defines"
 )
 
-var parse = cc.Parse
-var hostConfig = cc.HostConfig
+var (
+	parse      = cc.Parse
+	hostConfig = cc.HostConfig
+)
 
 func (p *parser) Parse(headers ...string) (*cc.AST, error) {
 	cfg := p.config.OverrideConfig

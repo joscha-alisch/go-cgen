@@ -12,8 +12,7 @@ func New() Organiser {
 	return &organiser{}
 }
 
-type organiser struct {
-}
+type organiser struct{}
 
 func (o *organiser) Organise(extractor.Definition) (*Library, error) {
 	return nil, nil

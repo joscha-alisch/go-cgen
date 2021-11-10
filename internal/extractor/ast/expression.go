@@ -1,8 +1,9 @@
 package ast
 
 import (
-	"modernc.org/cc/v3"
 	"strconv"
+
+	"modernc.org/cc/v3"
 )
 
 func FindValueConstantExpression(e *cc.ConstantExpression) Value {
@@ -102,6 +103,7 @@ func findValueShiftExpression(e *cc.ShiftExpression) Value {
 		findValueShiftExpression(e.ShiftExpression),
 	)
 }
+
 func findValueAdditiveExpression(e *cc.AdditiveExpression) Value {
 	if e == nil {
 		return Value{}
@@ -142,6 +144,7 @@ func findValueUnaryExpression(e *cc.UnaryExpression) Value {
 		findValueUnaryExpression(e.UnaryExpression),
 	)
 }
+
 func findValuePostfixExpression(e *cc.PostfixExpression) Value {
 	if e == nil {
 		return Value{}
