@@ -1,9 +1,19 @@
 package extractor
 
-import "modernc.org/cc/v3"
+import (
+	"github.com/joscha-alisch/go-cgen/internal/extractor/ast"
+	"modernc.org/cc/v3"
+)
 
+/**
+An Extractor extracts everything from the given C headers that is relevant to generating bindings.
+
+This currently includes:
+- A list of all Identifiers
+- Enums
+*/
 type Extractor interface {
-	Extract(ast *cc.AST) (*Definition, error)
+	Extract(ast *cc.AST) (Definition, error)
 }
 
 func New() Extractor {
@@ -11,10 +21,13 @@ func New() Extractor {
 }
 
 type extractor struct {
-
 }
 
-func (e *extractor) Extract(ast *cc.AST) (*Definition, error) {
-	return nil, nil
-}
+func (e *extractor) Extract(t *cc.AST) (Definition, error) {
+	h := handler{}
 
+	v := ast.NewVisitor(&h)
+	v.Visit(t.TranslationUnit)
+
+	return h.Definition, nil
+}

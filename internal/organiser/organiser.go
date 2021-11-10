@@ -5,7 +5,7 @@ import (
 )
 
 type Organiser interface {
-	Organise(def *extractor.Definition) (*Library, error)
+	Organise(def extractor.Definition) (*Library, error)
 }
 
 func New() Organiser {
@@ -13,10 +13,8 @@ func New() Organiser {
 }
 
 type organiser struct {
-
 }
 
-func (o *organiser) Organise(def *extractor.Definition) (*Library, error) {
+func (o *organiser) Organise(extractor.Definition) (*Library, error) {
 	return nil, nil
 }
-

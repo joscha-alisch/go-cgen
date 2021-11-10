@@ -5,7 +5,7 @@ import (
 )
 
 type RuleSet interface {
-	Apply(def *extractor.Definition) (*extractor.Definition, error)
+	Apply(def extractor.Definition) (extractor.Definition, error)
 }
 
 func New() RuleSet {
@@ -13,9 +13,8 @@ func New() RuleSet {
 }
 
 type ruleSet struct {
-
 }
 
-func (r *ruleSet) Apply(def *extractor.Definition) (*extractor.Definition, error) {
-	return nil, nil
+func (r *ruleSet) Apply(def extractor.Definition) (extractor.Definition, error) {
+	return def, nil
 }
