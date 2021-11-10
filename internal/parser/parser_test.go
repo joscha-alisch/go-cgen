@@ -56,6 +56,20 @@ func TestParser(t *testing.T) {
 			},
 			expectedErr: nil,
 		},
+		{
+			desc: "uses configured cpp command",
+			config: Config{
+				CppCommand: "my-cpp",
+			},
+			hostConfigReturns: hostConfigReturns{},
+			expectedHostArgs: hostConfigArgs{
+				Cpp: "my-cpp",
+			},
+			expectedArgs: parseArgs{
+				Config: &cc.Config{},
+			},
+			expectedErr: nil,
+		},
 	}
 
 	for _, test := range tests {
@@ -70,7 +84,7 @@ func TestParser(t *testing.T) {
 
 			parse = fakeParse(pArgs, pReturns)
 			hArgs := &hostConfigArgs{}
-			hostConfig = fakeHostConfig(hArgs, hostConfigReturns{})
+			hostConfig = fakeHostConfig(hArgs, test.hostConfigReturns)
 
 			ast, err := p.Parse(test.headers...)
 			if checkErr(err, test.expectedErr, tt) {
@@ -86,7 +100,7 @@ func TestParser(t *testing.T) {
 			}
 
 			if !cmp.Equal(*hArgs, test.expectedHostArgs) {
-				tt.Errorf("hostConfig was not called with correct arguments:\n%s\n", cmp.Diff(test.expectedHostArgs, hArgs))
+				tt.Errorf("hostConfig was not called with correct arguments:\n%s\n", cmp.Diff(test.expectedHostArgs, *hArgs))
 			}
 
 			spew.Config.DisablePointerAddresses = true

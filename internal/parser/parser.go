@@ -16,7 +16,9 @@ type Parser interface {
 New returns a new Parser for the given configuration.
 */
 func New(config Config) Parser {
-	return &parser{}
+	return &parser{
+		config: config,
+	}
 }
 
 type parser struct {
@@ -36,7 +38,7 @@ func (p *parser) Parse(headers ...string) (*cc.AST, error) {
 	var includes, sysIncludes []string
 	var err error
 	if !p.config.SkipHostConfig {
-		predefines, includes, sysIncludes, err = hostConfig("")
+		predefines, includes, sysIncludes, err = hostConfig(p.config.CppCommand)
 		if err != nil {
 			return nil, err
 		}

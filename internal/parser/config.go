@@ -6,6 +6,8 @@ type Config struct {
 	IncludeDirs []string
 	Defines     []string
 
+	CppCommand string
+
 	SkipHostConfig bool
 	OverrideConfig *cc.Config
 }
